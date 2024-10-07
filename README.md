@@ -11,7 +11,7 @@ Bienvenido al **Sistema de Sorteos** - una aplicación web dinámica y robusta p
 
 ## 📋 Características
 
-- **Cargar Participantes**: Permite la carga masiva de participantes a través de archivos CSV (nombres, email, rut)
+- **Cargar Participantes**: Permite la carga masiva de participantes a través de archivos CSV.
 - **Opciones de Sorteo**: Selección de diversos tipos de sorteos, desde un solo ganador hasta múltiples posiciones.
 - **Funcionalidad de Baneo**: Posibilidad de excluir participantes en futuros sorteos.
 - **Historial de Concursos**: Consulta histórica de concursos en los que ha participado un usuario a través de API.
@@ -39,20 +39,20 @@ Ejecuta la aplicación en tu servidor local. Si usas Apache y WSL:
 
 1. **Inicia sesión:** Ingresa con las credenciales establecidas en auth.php.
 2. **Crea un Sorteo:** Desde el panel principal, selecciona Crear Sorteo o Editar Sorteo.
-3. **Carga Participantes:** Sube un archivo CSV para añadir los participantes al sorteo.
+3. **Carga Participantes:** Sube un archivo CSV para añadir los participantes al sorteo (nombres, email, rut)
 4. **Realiza el Sorteo:** Escoge el tipo de sorteo y selecciona los ganadores de manera aleatoria.
 5. **Consulta Pública de Resultados:** Puedes hacer públicos los resultados y permitir el acceso a la vista pública de los ganadores.
 
 ## 🛠 API Gateway
 
-**Endpoint de Reportes:**
-    Consulta concursos de un participante por RUT y API Key.
+**Endpoint de Reportes:** 
+Consulta concursos de un participante por RUT y API Key.
 
-- URL: /api/concursos/{rut}
-- Método: GET
-- Parámetros:
-    - rut: RUT del participante (sin puntos ni guiones).
-    - api_key: Clave de API válida.
+- **URL:** /api/concursos/{rut}
+- **Método:** GET
+- **Parámetros:**
+    - **rut:** RUT del participante (sin puntos ni guiones).
+    - **api_key:** Clave de API válida.
 
 Ejemplo de consulta:
 
@@ -61,8 +61,9 @@ curl -X GET 'http://localhost/sorteos/api/concursos/123456789?api_key=TU_API_KEY
 ```
 
 ## 🔒 Seguridad
-- Asegúrate de mantener la API Key y archivos de configuración en .gitignore para proteger datos sensibles.
-- Configura auth.php y database.php de forma segura antes de subir cambios al repositorio.
+- Asegúrate de mantener la API Key y archivos de configuración en *.gitignore* para proteger datos sensibles.
+- Configura *auth.php* y *database.php* de forma segura antes de subir cambios al repositorio. 
+- Puedes usar *database_example.php*, configurando los datos de tu db y cambiando el nombre de archivo a *database.php*
 
 
 ## 👥 Contribuciones
