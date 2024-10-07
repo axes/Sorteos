@@ -1,0 +1,305 @@
+/* Colores Corporativos (variables) */
+:root {
+    --color-primario: #1f2648;      /* Azul Oscuro */
+    --color-secundario: #3b3c8f;    /* Azul */
+    --color-terciario: #cf3d65;     /* Rosa */
+    --color-cuaternario: #72327e;       /* Morado */
+    --color-quintenario: #60b790;    /* Verde */
+    --color-lila: #9c3878;    /* Lila */
+}
+/* Fonts */
+@font-face {
+    font-family: 'Graphik';
+    src:url('../fonts/Graphik-Regular.otf') format('opentype'), 
+        url('../fonts/Graphik-Regular.woff2') format('woff2'),
+        url('../fonts/Graphik-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik';
+    src: url('../fonts/Graphik-Black.otf') format('opentype'), 
+        url('../fonts/Graphik-Black.woff2') format('woff2'),
+        url('../fonts/Graphik-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Graphik', sans-serif;
+    background: #fafafa;
+    /* 
+    background: rgb(31, 36, 72);
+    background: linear-gradient(180deg, rgba(31, 36, 72, 1) 0%, rgba(72, 31, 61, 1) 80%, rgba(207, 61, 101, 1) 100%);
+    background-attachment: fixed; 
+    */
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Graphik', sans-serif;
+    font-weight: 900;
+    color: var(--color-primario) !important;
+}
+
+/* Bordes */
+.bordesombreado {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    padding: 50px;
+    /* border-color: rgb(211, 211, 211);
+    border-width: 3px 4px 3px 5px; */
+    /* border-radius:10% 4% 10% 5%/4% 10% 6% 10%; */
+    border-radius: 20px;
+    background: #fff;
+}
+#paso1 .form-check {
+    font-size: 1.2em;
+}
+
+
+#paso1 .form-check .form-check-input:checked{
+    color: var(--color-terciario) !important;
+    border-color: var(--color-terciario) !important;
+    background-color: var(--color-terciario) !important;
+}
+
+
+
+/* Fondo de navbar con color primario texto blanco */
+.navbar {
+    background-color: var(--color-primario) !important;
+    color: white;
+}
+
+#listaParticipantes {
+    max-height: 40vh;
+    overflow-y: scroll;
+    background: #fafafa;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+
+
+/* CSS */
+.button-85 {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+/* ========================================================== */
+
+/* Estilos generales para la sección */
+section#realizarSorteo {
+    background: #fff;
+    border-radius: 20px;
+    position: relative;
+    z-index: 0;
+    padding: 50px;
+    overflow: visible; /* Para evitar que el brillo sobresalga */
+    transition: background 1s; /* Transición suave del fondo */
+}
+
+/* Cambiar fondo al hacer hover */
+section#realizarSorteo:hover {
+    background: #f0f0f0;
+}
+
+/* Clase reutilizable para el borde arcoíris */
+.borde-rainbow {
+    position: relative;
+    z-index: 0;
+    border-radius: 20px; /* Ajusta el radio según tus necesidades */
+  /*   overflow: hidden; Para que los pseudo-elementos no sobresalgan */
+}
+
+.borde-rainbow::before,
+.borde-rainbow::after {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+}
+
+.borde-rainbow::before {
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7300,
+        #fffb00,
+        #48ff00,
+        #00ffd5,
+        #002bff,
+        #7a00ff,
+        #ff00c8,
+        #ff0000
+    );
+    background-size: 400%;
+    z-index: -2;
+    opacity: 0;
+    transition: opacity 1s;
+    animation: glowing-border 20s linear infinite;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+}
+
+.borde-rainbow:hover::before {
+    opacity: 1;
+}
+
+@keyframes glowing-border {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 500% 0%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.borde-rainbow::after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Usar el mismo fondo del elemento padre */
+    z-index: -1;
+}
+
+/* Clase para borde arcoíris animado siempre visible */
+.rainbow {
+    position: relative;
+    z-index: 0;
+    border-radius: 20px; /* Ajusta el radio según tus necesidades */
+    /* overflow: hidden; Para evitar que el brillo sobresalga */
+}
+
+.rainbow::before,
+.rainbow::after {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+}
+
+.rainbow::before {
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7300,
+        #fffb00,
+        #48ff00,
+        #00ffd5,
+        #002bff,
+        #7a00ff,
+        #ff00c8,
+        #ff0000
+    );
+    background-size: 400%;
+    z-index: -2;
+    animation: glowing-border 20s linear infinite;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+}
+
+@keyframes glowing-border {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 500% 0%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.rainbow::after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Usar el mismo fondo del elemento padre */
+    z-index: -1;
+}
+
+/* Efecto de borde arcoíris solo al hacer hover */
+.rainbow-hover::before {
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.rainbow-hover:hover::before {
+    opacity: 1;
+}
