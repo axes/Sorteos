@@ -1,5 +1,4 @@
 config/database.php
-config/auth.php
 .env
 /uploads
 public/img/
