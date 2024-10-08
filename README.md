@@ -21,8 +21,8 @@ Bienvenido al **Sistema de Sorteos** - una aplicación web dinámica y robusta p
 
 1. Clona el repositorio en tu máquina:
    ```bash
-   git clone https://github.com/tu_usuario/nombre_repositorio.git
-   cd nombre_repositorio 
+   git clone https://github.com/axes/Sorteos.git
+   cd sorteos 
    ```
 
 2. Instala las dependencias necesarias y configura los archivos de autenticación (ver config/auth.php y config/database.php).
