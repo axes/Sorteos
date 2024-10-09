@@ -192,6 +192,14 @@ class SorteosController
     {
         $sorteo = Sorteo::obtenerPorId($sorteo_id);
 
+        // Verificar si el sorteo existe
+        if (!$sorteo) {
+            // Redirigir a una página de error 404 si el sorteo no existe
+            $title = 'Sorteo no encontrado';
+            require __DIR__ . '/../views/404.php';
+            exit;
+        }
+
         if (!$sorteo['publicado']) {
             // Mostrar mensaje si el sorteo no está publicado
             $title = 'Resultado no disponible';
