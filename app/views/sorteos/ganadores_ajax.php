@@ -1,3 +1,17 @@
+<?php
+function enmascararEmail($email) {
+    $partes = explode('@', $email);
+    return substr($partes[0], 0, 2) . '***@' . $partes[1];
+}
+?>
+
+<?php
+function enmascararRut($rut) {
+    return substr($rut, 0, 4) . '*****';
+}
+?>
+
+
 <?php if (isset($resultados['al_agua'])): ?>
     <h3>Al Agua:</h3>
     <ul>
@@ -11,7 +25,7 @@
 <ul class="list-group bordesombreado rainbow my-3 py-3">
     <?php foreach ($resultados['ganadores'] as $ganador): ?>
         <li class="list-group-item ">
-            <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars($ganador['email']); ?>
+            <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars(enmascararEmail($ganador['email'])); ?> - <?= htmlspecialchars(enmascararRut($ganador['rut'])); ?>
             <?php if (isset($ganador['lugar'])): ?>
                 (<?= $ganador['lugar']; ?>º Lugar)
             <?php endif; ?>

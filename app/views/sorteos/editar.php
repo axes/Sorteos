@@ -3,6 +3,19 @@ $title = 'Editar Sorteo - ' . htmlspecialchars($sorteo['nombre']);
 ob_start();
 ?>
 
+<?php
+function enmascararEmail($email) {
+    $partes = explode('@', $email);
+    return substr($partes[0], 0, 2) . '***@' . $partes[1];
+}
+?>
+
+<?php
+function enmascararRut($rut) {
+    return substr($rut, 0, 4) . '*****';
+}
+?>
+
 <div class="row justify-content-center">
     <div class="col-8 text-center mb-3">
         <small>Editar Sorteo:</small>
@@ -30,7 +43,7 @@ ob_start();
                     <ul class="list-group">
                         <?php foreach ($ganadores as $ganador): ?>
                             <li class="list-group-item">
-                                [<?= $ganador['lugar']; ?>º] <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars($ganador['email']); ?>
+                                [<?= $ganador['lugar']; ?>º] <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars(enmascararEmail($ganador['email'])); ?> - <?= htmlspecialchars(enmascararRut($ganador['rut'])); ?>
                                 <!-- Botón para anular ganador -->
                                 <button class="btn btn-outline-danger btn-sm anular-ganador ms-3" data-participante-id="<?= $ganador['id']; ?>">
                                     Anular Ganador
@@ -77,7 +90,6 @@ ob_start();
             <?php endif; ?>
 
             <button class="btn btn-primary my-5" onclick="window.location.href='/sorteos'">Volver a la lista de sorteos</button>
-
         </div>
 
 

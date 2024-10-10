@@ -206,15 +206,19 @@ class Sorteo
         global $pdo;
         $sql = "UPDATE sorteos SET publicado = 1 WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$sorteo_id]);
+        if (!$stmt->execute([$sorteo_id])) {
+            error_log("Error al publicar sorteo ID: $sorteo_id - " . implode(", ", $stmt->errorInfo()));
+        }
     }
-
+    
     public static function despublicar($sorteo_id)
     {
         global $pdo;
         $sql = "UPDATE sorteos SET publicado = 0 WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$sorteo_id]);
+        if (!$stmt->execute([$sorteo_id])) {
+            error_log("Error al despublicar sorteo ID: $sorteo_id - " . implode(", ", $stmt->errorInfo()));
+        }
     }
 
 

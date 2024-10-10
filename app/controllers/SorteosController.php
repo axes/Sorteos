@@ -150,9 +150,9 @@ class SorteosController
         header('Content-Type: application/json');
         $data = json_decode(file_get_contents('php://input'), true);
         $sorteo_id = $data['sorteo_id'];
-
+    
         try {
-            Sorteo::publicar($sorteo_id);
+            Sorteo::publicar($sorteo_id); // Este método debe establecer 'publicado' como 1 en la base de datos
             echo json_encode(['success' => true, 'message' => 'El sorteo ha sido publicado.']);
             exit;
         } catch (Exception $e) {

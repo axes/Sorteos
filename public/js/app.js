@@ -1,5 +1,5 @@
 // Debug
-let version = '1.0.3';
+let version = '1.0.4';
 console.log('JS cargado correctamente. version:', version);
 
 // Función de enmascarado de RUT, mostrando solo los primeros 4 caracteres
@@ -33,7 +33,7 @@ if (crearSorteoForm) {
 }
 
 // Confirmar logout
-const logoutLink = document.querySelector('a.nav-link[href="/sorteos/logout"]');
+const logoutLink = document.querySelector('a.nav-link[href="/logout"]');
 if (logoutLink) {
     logoutLink.addEventListener('click', function (event) {
         event.preventDefault();
@@ -45,7 +45,7 @@ if (logoutLink) {
             confirmButtonText: 'Sí, cerrar sesión',
             cancelButtonText: 'Cancelar'
         }).then(result => {
-            if (result.isConfirmed) window.location.href = '/sorteos/logout';
+            if (result.isConfirmed) window.location.href = '/logout';
         });
     });
 }
@@ -198,3 +198,77 @@ const editarSorteoForm = document.getElementById('editarSorteoForm');
 if (editarSorteoForm) {
     editarSorteoForm.addEventListener('submit', verificarSorteoExistente);
 }
+
+
+// Manejar la publicación del sorteo
+document.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'publicarSorteo') {
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esto hará público el resultado del sorteo.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, publicar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/sorteos/publicar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ sorteo_id: sorteoId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('¡Publicado!', data.message, 'success').then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Error', 'Ha ocurrido un error.', 'error');
+                });
+            }
+        });
+    }
+
+    if (e.target && e.target.id === 'despublicarSorteo') {
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esto ocultará el resultado del sorteo al público.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, despublicar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/sorteos/despublicar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ sorteo_id: sorteoId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('¡Despublicado!', data.message, 'success').then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Error', 'Ha ocurrido un error.', 'error');
+                });
+            }
+        });
+    }
+});
