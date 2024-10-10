@@ -17,7 +17,7 @@ ob_start(); // Iniciar el buffer de salida
             ?>
         <?php endif; ?>
 
-        <form action="/sorteos/login" method="post">
+        <form action="/login" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Usuario:</label>
                 <input type="text" name="username" id="username" class="form-control" required>

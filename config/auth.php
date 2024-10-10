@@ -7,6 +7,7 @@ function isLoggedIn() {
 
 function login($username, $password) {
     global $basePath;
+    
     // Autenticación de usuario simple
     // TODO: Implementar autenticación segura
     if ($username === 'admin' && $password === 'password') {

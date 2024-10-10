@@ -8,9 +8,9 @@
 <?php endif; ?>
 
 <h3>Ganador(es):</h3>
-<ul class="list-group">
+<ul class="list-group bordesombreado rainbow my-3 py-3">
     <?php foreach ($resultados['ganadores'] as $ganador): ?>
-        <li class="list-group-item">
+        <li class="list-group-item ">
             <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars($ganador['email']); ?>
             <?php if (isset($ganador['lugar'])): ?>
                 (<?= $ganador['lugar']; ?>º Lugar)

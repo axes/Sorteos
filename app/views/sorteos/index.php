@@ -45,9 +45,9 @@ ob_start(); // Inicia el buffer de salida
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Editar Sorteo</button>
-
         </form>
     </div>
+    
 </div>
 
 <?php

@@ -12,12 +12,12 @@ ob_start();
 
     <div class="col-8 text-center mb-3">
         <?php if ($ganadores): ?>
-            <div class="rainbow mb-3">
-                <h3>Ganador(es):</h3>
+            <div class="rainbow  bordesombreado py-5 px-3 mb-5">
+                <h2 class="mb-3">Ganador(es):</h2>
                 <ul class="list-group">
                     <?php foreach ($ganadores as $ganador): ?>
                         <li class="list-group-item">
-                            [<?= $ganador['lugar']; ?>º] <?= htmlspecialchars($ganador['nombre']); ?>
+                            [<?= $ganador['lugar']; ?>º] <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars($ganador['email']); ?>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -27,14 +27,17 @@ ob_start();
         <?php endif; ?>
 
         <?php if ($ganadoresAnulados): ?>
-            <h3>Ganadores Anulados:</h3>
-            <ul>
-                <?php foreach ($ganadoresAnulados as $anulado): ?>
-                    <li>
-                        [<?= $anulado['lugar']; ?>º] <?= htmlspecialchars($anulado['nombre']); ?> <span class="text-danger">(Anulado)</span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <div class="bordesombreado mb-3">
+                <h3>Ganadores Anulados:</h3>
+                <ul class="list-unstyled">
+                    <?php foreach ($ganadoresAnulados as $anulado): ?>
+                        <li>
+                            [<?= $anulado['lugar']; ?>º] <?= htmlspecialchars($anulado['nombre']); ?> - <?= htmlspecialchars($anulado['email']); ?>
+                            <span class="text-danger">(Anulado)</span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         <?php endif; ?>
 
         <?php if ($al_agua): ?>

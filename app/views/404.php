@@ -7,7 +7,7 @@ ob_start(); // Inicia el buffer de salida
 <div class="text-center">
     <h1 class="display-4">404 - Página no encontrada</h1>
     <p>Lo sentimos, la página que estás buscando no existe.</p>
-    <a href="/sorteos/sorteos" class="btn btn-primary">Volver a la página principal</a>
+    <a href="/sorteos" class="btn btn-primary">Volver a la página principal</a>
 </div>
 
 <?php
