@@ -12,6 +12,13 @@ function mostrarAlerta(icon, title, text) {
     Swal.fire({ icon, title, text, confirmButtonText: 'Aceptar' });
 }
 
+// Función para enmascarar el email, mostrando solo los primeros dos caracteres
+function enmascararEmail(email) {
+    const partes = email.split('@');
+    return partes[0].slice(0, 2) + '***@' + partes[1];
+}
+
+
 // Crear Sorteo
 const crearSorteoForm = document.getElementById('crearSorteoForm');
 if (crearSorteoForm) {
@@ -69,11 +76,11 @@ function actualizarParticipantes(participantes) {
                 ${participantes.map(p => `
                     <li class="list-group-item">
                         ${p.nombre} - ${enmascararRut(p.rut)}
-                        ${!p.baneado 
-                            ? `<button class="btn btn-warning btn-sm banear-participante" data-participante-id="${p.id}">Banear</button>`
-                            : `<span class="text-danger">(Baneado)</span>
+                        ${!p.baneado
+                ? `<button class="btn btn-warning btn-sm banear-participante" data-participante-id="${p.id}">Banear</button>`
+                : `<span class="text-danger">(Baneado)</span>
                                <button class="btn btn-secondary btn-sm desbanear-participante" data-participante-id="${p.id}">Desbanear</button>`
-                        }
+            }
                     </li>
                 `).join('')}
             </ul>
@@ -107,38 +114,160 @@ if (cargarParticipantesForm) {
 }
 
 // Función para realizar el sorteo con cuenta regresiva
+// OLD BUT GOLD
+// const realizarSorteoForm = document.getElementById('realizarSorteoForm');
+// if (realizarSorteoForm) {
+//     realizarSorteoForm.addEventListener('submit', function (e) {
+//         e.preventDefault();
+//         const formData = new FormData(this);
+
+//         Swal.fire({
+//             title: 'Preparando el sorteo...',
+//             html: 'El sorteo comenzará en <b>3</b> segundos.',
+//             timer: 3000,
+//             timerProgressBar: true,
+//             didOpen: () => {
+//                 Swal.showLoading();
+//                 const b = Swal.getHtmlContainer().querySelector('b');
+//                 let timeLeft = 3;
+//                 const interval = setInterval(() => b.textContent = timeLeft--, 1000);
+//                 setTimeout(() => clearInterval(interval), 3000);
+//             }
+//         }).then(() => {
+//             fetch('/sorteos/realizar-sorteo', { method: 'POST', body: formData })
+//                 .then(response => response.json())
+//                 .then(data => {
+//                     if (data.success) {
+//                         Swal.fire({ icon: 'success', title: '¡Felicitaciones!', html: data.html }).then(() => location.reload());
+//                     } else {
+//                         mostrarAlerta('error', 'Error', data.message);
+//                     }
+//                 })
+//                 .catch(() => mostrarAlerta('error', 'Error', 'Error al realizar el sorteo.'));
+//         });
+//     });
+// }
+
+// Realizar sorteo con secuencia de dramatismo para los resultados
 const realizarSorteoForm = document.getElementById('realizarSorteoForm');
 if (realizarSorteoForm) {
     realizarSorteoForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const formData = new FormData(this);
 
-        Swal.fire({
-            title: 'Preparando el sorteo...',
-            html: 'El sorteo comenzará en <b>3</b> segundos.',
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: () => {
-                Swal.showLoading();
-                const b = Swal.getHtmlContainer().querySelector('b');
-                let timeLeft = 3;
-                const interval = setInterval(() => b.textContent = timeLeft--, 1000);
-                setTimeout(() => clearInterval(interval), 3000);
-            }
-        }).then(() => {
-            fetch('/sorteos/realizar-sorteo', { method: 'POST', body: formData })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({ icon: 'success', title: '¡Felicitaciones!', html: data.html }).then(() => location.reload());
-                    } else {
-                        mostrarAlerta('error', 'Error', data.message);
-                    }
-                })
-                .catch(() => mostrarAlerta('error', 'Error', 'Error al realizar el sorteo.'));
-        });
+        // Fetch para obtener los resultados del sorteo
+        fetch('/sorteos/realizar-sorteo', { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Parsear el HTML para extraer ganadores y "al agua"
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data.html, 'text/html');
+
+                    // Extraer participantes "al agua"
+                    const alAguaHeader = Array.from(doc.querySelectorAll('h3'))
+                        .find(h => h.textContent.includes("Al Agua"));
+                    const alAguaElements = alAguaHeader ? alAguaHeader.nextElementSibling.querySelectorAll('li') : [];
+                    const alAgua = Array.from(alAguaElements).map(el => el.textContent.trim());
+
+                    // Extraer ganadores
+                    const ganadoresHeader = Array.from(doc.querySelectorAll('h3'))
+                        .find(h => h.textContent.includes("Ganador(es)"));
+                    const ganadorElements = ganadoresHeader ? ganadoresHeader.nextElementSibling.querySelectorAll('li') : [];
+                    const ganadores = Array.from(ganadorElements).map(el => el.textContent.trim());
+
+                    // Mostrar mensaje inicial de cuenta regresiva
+                    Swal.fire({
+                        title: '¡El sorteo comenzará pronto!',
+                        html: 'Comenzando en <b>3</b> segundos...',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const countdownElem = Swal.getHtmlContainer().querySelector('b');
+                            let countdown = 3;
+                            const interval = setInterval(() => {
+                                countdownElem.textContent = countdown;
+                                countdown--;
+                            }, 1000);
+                            setTimeout(() => clearInterval(interval), 3000); // Limpiar intervalo al finalizar
+                        }
+                    }).then(() => {
+                        // Mostrar los "al agua" con pausa de suspenso
+                        let delay = 0;
+                        alAgua.forEach((participante) => {
+                            delay += 3000;
+                            setTimeout(() => {
+                                Swal.fire({
+                                    title: 'Al Agua:',
+                                    text: `${participante}`,
+                                    icon: 'info',
+                                    timer: 2500,
+                                    showConfirmButton: false,
+                                });
+                            }, delay);
+                        });
+
+                        // Mostrar el ganador y lanzar el confetti de inmediato
+                        delay += 3000;
+                        setTimeout(() => {
+                            Swal.fire({
+                                title: '¡El ganador es!',
+                                text: `${ganadores[0]}`,
+                                icon: 'success',
+                                showConfirmButton: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                            lanzarConfetti();
+                        }, delay);
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Error', text: data.message });
+                }
+            })
+            .catch(error => {
+                console.error("Error en la solicitud del sorteo:", error);
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Error al realizar el sorteo.' });
+            });
     });
 }
+
+// Función para lanzar el confetti
+function lanzarConfetti() {
+    const duration = 15 * 100; // duración en milisegundos
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+
+        // Configuración de confetti desde dos posiciones de origen diferentes
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        }));
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        }));
+    }, 250);
+}
+
+
+
 
 // Manejar la anulación de ganador
 document.addEventListener('click', function (e) {
@@ -220,19 +349,19 @@ document.addEventListener('click', function (e) {
                     },
                     body: JSON.stringify({ sorteo_id: sorteoId })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire('¡Publicado!', data.message, 'success').then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire('Error', data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.fire('Error', 'Ha ocurrido un error.', 'error');
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire('¡Publicado!', data.message, 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire('Error', 'Ha ocurrido un error.', 'error');
+                    });
             }
         });
     }
@@ -255,19 +384,19 @@ document.addEventListener('click', function (e) {
                     },
                     body: JSON.stringify({ sorteo_id: sorteoId })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire('¡Despublicado!', data.message, 'success').then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire('Error', data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.fire('Error', 'Ha ocurrido un error.', 'error');
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire('¡Despublicado!', data.message, 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire('Error', 'Ha ocurrido un error.', 'error');
+                    });
             }
         });
     }
