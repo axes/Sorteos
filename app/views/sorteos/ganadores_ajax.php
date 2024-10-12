@@ -14,9 +14,9 @@ function enmascararRut($rut) {
 
 <?php if (isset($resultados['al_agua'])): ?>
     <h3>Al Agua:</h3>
-    <ul>
+    <ul class="list-unstyled">
         <?php foreach ($resultados['al_agua'] as $al_agua): ?>
-            <li><?= htmlspecialchars($al_agua['nombre']); ?> - <?= htmlspecialchars($al_agua['email']); ?></li>
+            <li><?= htmlspecialchars($al_agua['nombre']); ?> - <?= htmlspecialchars(enmascararEmail($al_agua['email'])); ?></li>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>

@@ -1,6 +1,11 @@
 <?php
 $title = 'Resultado del Sorteo - ' . htmlspecialchars($sorteo['nombre']);
 ob_start();
+
+function enmascararEmail($email) {
+    $partes = explode('@', $email);
+    return substr($partes[0], 0, 2) . '***@' . $partes[1];
+}
 ?>
 
 <div class="row justify-content-center">
@@ -12,12 +17,12 @@ ob_start();
 
     <div class="col-8 text-center mb-3">
         <?php if ($ganadores): ?>
-            <div class="rainbow  bordesombreado py-5 px-3 mb-5">
+            <div class="rainbow bordesombreado py-5 px-3 mb-5">
                 <h2 class="mb-3">Ganador(es):</h2>
                 <ul class="list-group">
                     <?php foreach ($ganadores as $ganador): ?>
                         <li class="list-group-item">
-                            [<?= $ganador['lugar']; ?>º] <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars($ganador['email']); ?>
+                            [<?= $ganador['lugar']; ?>º] <?= htmlspecialchars($ganador['nombre']); ?> - <?= htmlspecialchars(enmascararEmail($ganador['email'])); ?>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -32,7 +37,7 @@ ob_start();
                 <ul class="list-unstyled">
                     <?php foreach ($ganadoresAnulados as $anulado): ?>
                         <li>
-                            [<?= $anulado['lugar']; ?>º] <?= htmlspecialchars($anulado['nombre']); ?> - <?= htmlspecialchars($anulado['email']); ?>
+                            [<?= $anulado['lugar']; ?>º] <?= htmlspecialchars($anulado['nombre']); ?> - <?= htmlspecialchars(enmascararEmail($anulado['email'])); ?>
                             <span class="text-danger">(Anulado)</span>
                         </li>
                     <?php endforeach; ?>
@@ -42,7 +47,7 @@ ob_start();
 
         <?php if ($al_agua): ?>
             <h3>Al Agua:</h3>
-            <ul>
+            <ul class="list-unstyled">
                 <?php foreach ($al_agua as $participante): ?>
                     <li><?= htmlspecialchars($participante['nombre']); ?></li>
                 <?php endforeach; ?>

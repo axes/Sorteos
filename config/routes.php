@@ -16,7 +16,7 @@ if ($basePath && strpos($uri, $basePath) === 0) {
 error_log("URI después de eliminar el basePath: " . $uri);
 
 // Rutas públicas
-$publicRoutes = ['/login', '/api', '/resultado'];
+$publicRoutes = ['/login', '/api', '/sorteos/resultado'];
 
 // Comprobar si la ruta es pública
 $isPublicRoute = array_reduce($publicRoutes, function ($carry, $route) use ($uri) {

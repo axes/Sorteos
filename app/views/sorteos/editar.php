@@ -62,7 +62,7 @@ function enmascararRut($rut) {
                     <ul class="list-unstyled">
                         <?php foreach ($ganadoresAnulados as $anulado): ?>
                             <li>
-                                [<?= $anulado['lugar']; ?>º] <?= htmlspecialchars($anulado['nombre']); ?> - <?= htmlspecialchars($anulado['email']); ?>
+                                [<?= $anulado['lugar']; ?>º] <?= htmlspecialchars($anulado['nombre']); ?> - <?= htmlspecialchars(enmascararEmail($anulado['email'])); ?>
                                 <span class="text-danger">(Anulado)</span>
                             </li>
                         <?php endforeach; ?>
@@ -72,7 +72,7 @@ function enmascararRut($rut) {
 
             <?php if ($al_agua): ?>
                 <h3>Al Agua:</h3>
-                <ul>
+                <ul class="list-unstyled">
                     <?php foreach ($al_agua as $participante): ?>
                         <li><?= htmlspecialchars($participante['nombre']); ?></li>
                     <?php endforeach; ?>
@@ -115,7 +115,7 @@ function enmascararRut($rut) {
                     <ul class="list-group">
                         <?php foreach ($participantes as $participante): ?>
                             <li class="list-group-item">
-                                <?= htmlspecialchars($participante['nombre']); ?> - <?= htmlspecialchars($participante['rut']); ?>
+                                <?= htmlspecialchars($participante['nombre']); ?> - <?= htmlspecialchars(enmascararRut($participante['rut'])); ?>
                                 <?php if (!$participante['baneado']): ?>
                                     <button class="btn btn-warning btn-sm banear-participante" data-participante-id="<?= $participante['id']; ?>">
                                         Banear
