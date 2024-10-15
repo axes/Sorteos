@@ -1,5 +1,5 @@
 // Debug
-let version = '1.0.4';
+let version = '0.0.3';
 console.log('JS cargado correctamente. version:', version);
 
 // Función de enmascarado de RUT, mostrando solo los primeros 4 caracteres

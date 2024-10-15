@@ -13,7 +13,6 @@ $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 if ($basePath && strpos($uri, $basePath) === 0) {
     $uri = substr($uri, strlen($basePath));
 }
-error_log("URI después de eliminar el basePath: " . $uri);
 
 // Rutas públicas
 $publicRoutes = ['/login', '/api', '/sorteos/resultado'];
