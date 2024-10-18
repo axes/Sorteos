@@ -1,11 +1,14 @@
 <?php
 function enmascararEmail($email) {
-    $partes = explode('@', $email);
-    return substr($partes[0], 0, 2) . '***@' . $partes[1];
+    if (strpos($email, '@') !== false) {
+        $partes = explode('@', $email);
+        return substr($partes[0], 0, 2) . '***@' . $partes[1];
+    } else {
+        // Manejo de error si el email no tiene formato válido
+        return 'Email inválido';
+    }
 }
-?>
 
-<?php
 function enmascararRut($rut) {
     return substr($rut, 0, 4) . '*****';
 }
